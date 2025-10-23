@@ -55,6 +55,16 @@ module RailsERD
       end
 
       # For compatibility with diagram generators
+      def to_many?
+        true
+      end
+
+      # For compatibility with diagram generators
+      def many_to?
+        true
+      end
+
+      # For compatibility with diagram generators
       def source_optional?
         true
       end
@@ -62,6 +72,11 @@ module RailsERD
       # For compatibility with diagram generators
       def destination_optional?
         true
+      end
+
+      # For compatibility with diagram generators
+      def strength
+        1.0
       end
 
       def ==(other) # @private :nodoc:

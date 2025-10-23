@@ -67,6 +67,11 @@ module RailsERD
         prefix = class_method? ? '+ ' : '- '
         "#{prefix}#{name}"
       end
+
+      # For compatibility with diagram generators
+      def type_description
+        name
+      end
     end
   end
 end
