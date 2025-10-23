@@ -158,7 +158,24 @@ module RailsERD
         calls = StaticAnalyzer.find_method_calls(source_code)
 
         calls.each do |call|
+          # Try exact match first
           target_entity = @entities.find { |e| e.name == call[:target_class] }
+
+          # If no exact match, try fuzzy matching (for unqualified constant references)
+          unless target_entity
+            # If the call is to "Foo", try to find "::Foo", "Module::Foo", etc.
+            target_entity = @entities.find { |e| e.name.end_with?("::#{call[:target_class]}") }
+
+            # Also try if the target is in the same namespace as source
+            unless target_entity
+              if source_entity.name.include?('::')
+                namespace = source_entity.name.split('::')[0..-2].join('::')
+                qualified_name = "#{namespace}::#{call[:target_class]}"
+                target_entity = @entities.find { |e| e.name == qualified_name }
+              end
+            end
+          end
+
           next unless target_entity
 
           # Check if we already have this relationship

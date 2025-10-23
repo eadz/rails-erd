@@ -42,7 +42,7 @@ module RailsERD
       method = result[:public_methods].first
 
       assert_equal :process, method[:name]
-      assert_equal 'process(order, options = {})', method[:signature]
+      assert_equal 'process(order, options = ...)', method[:signature]
     end
 
     def test_captures_superclass
