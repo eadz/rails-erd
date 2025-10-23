@@ -3,6 +3,7 @@ require "rails_erd/domain/attribute"
 require "rails_erd/domain/entity"
 require "rails_erd/domain/relationship"
 require "rails_erd/domain/specialization"
+require "rails_erd/domain/ruby_parser"
 
 module RailsERD
   # The domain describes your Rails domain model. This class is the starting

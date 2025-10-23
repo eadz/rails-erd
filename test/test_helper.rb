@@ -2,6 +2,12 @@ require "rubygems"
 require "bundler/setup"
 require 'pry'
 require 'pry-nav'
+require 'logger'
+require 'ostruct'
+require 'mutex_m'
+require 'base64'
+require 'bigdecimal'
+require 'csv'
 
 require "active_record"
 

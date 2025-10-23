@@ -21,6 +21,14 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency "pry"
   s.add_development_dependency "pry-nav"
+  s.add_development_dependency "logger"
+  s.add_development_dependency "ostruct"
+  s.add_development_dependency "mutex_m"
+  s.add_development_dependency "base64"
+  s.add_development_dependency "bigdecimal"
+  s.add_development_dependency "csv"
+  s.add_development_dependency "drb"
+  s.add_development_dependency "benchmark"
 
   s.files         = `git ls-files -- {bin,lib,test}/* CHANGES.rdoc LICENSE Rakefile README.md`.split("\n")
   s.test_files    = `git ls-files -- test/*`.split("\n")
