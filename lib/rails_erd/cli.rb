@@ -1,4 +1,6 @@
 require "rails_erd"
+require "rails_erd/domain"
+require "rails_erd/diagram"
 require "choice"
 
 Choice.options do
