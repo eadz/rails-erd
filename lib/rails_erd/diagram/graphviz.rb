@@ -54,9 +54,9 @@ module RailsERD
 
       # Default graph attributes.
       GRAPH_ATTRIBUTES = {
-        rankdir:     :LR,
-        ranksep:     0.5,
-        nodesep:     0.4,
+        rankdir:     :TB,  # Top to bottom for more vertical layout
+        ranksep:     0.8,  # Increased spacing between ranks
+        nodesep:     0.5,  # Spacing between nodes
         pad:         "0.4,0.4",
         margin:      "0,0",
         concentrate: true,
@@ -239,25 +239,30 @@ module RailsERD
       each_relationship do |relationship|
         from, to = relationship.source, relationship.destination
 
-        # If we have method-level call information, draw edges for each method call
+        # Build edge label from method calls
+        edge_options = relationship_options(relationship)
         if relationship.method_calls && relationship.method_calls.any?
-          relationship.method_calls.each do |call|
-            # Find source method port
-            source_port = find_method_port(from, call[:source_method])
-            # Find target method port
-            target_port = find_method_port(to, call[:target_method])
+          # Create label showing method calls
+          calls_label = relationship.method_calls.map do |call|
+            source_method = call[:source_method] || '?'
+            target_method = call[:target_method]
+            "#{source_method} → #{target_method}"
+          end.uniq.first(3).join('\n')
 
-            draw_edge_with_ports(from.name, to.name, source_port, target_port, relationship_options(relationship))
+          # Add "..." if there are more calls
+          calls_label += '\n...' if relationship.method_calls.length > 3
+
+          edge_options[:label] = calls_label
+          edge_options[:fontsize] = 8
+        end
+
+        # Draw class-level edge with method call labels
+        unless draw_edge from.name, to.name, edge_options
+          from.children.each do |child|
+            draw_edge child.name, to.name, edge_options
           end
-        else
-          # Fallback to class-level edge if no method information
-          unless draw_edge from.name, to.name, relationship_options(relationship)
-            from.children.each do |child|
-              draw_edge child.name, to.name, relationship_options(relationship)
-            end
-            to.children.each do |child|
-              draw_edge from.name, child.name, relationship_options(relationship)
-            end
+          to.children.each do |child|
+            draw_edge from.name, child.name, edge_options
           end
         end
       end
@@ -286,11 +291,14 @@ module RailsERD
         from_node = graph.search_node(escape_name(from))
         to_node = graph.search_node(escape_name(to))
 
-        # Build port specification
-        from_spec = source_port ? "#{from_node.id}:#{source_port}" : from_node
-        to_spec = target_port ? "#{to_node.id}:#{target_port}" : to_node
+        # Create edge between nodes
+        edge = graph.add_edges(from_node, to_node, options)
 
-        graph.add_edges from_spec, to_spec, options
+        # Set port specifications using hash-style attributes
+        edge['tailport'] = source_port if source_port
+        edge['headport'] = target_port if target_port
+
+        edge
       end
 
       def find_method_port(entity, method_name)

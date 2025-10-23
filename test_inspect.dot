@@ -1,0 +1,313 @@
+digraph {
+	graph [bb="0,0,4181.1,575.3",
+		concentrate=true,
+		fontname="Arial BoldMT",
+		fontsize=13,
+		label="Domain model\n\n",
+		labelloc=t,
+		lheight=0.40,
+		lp="2090.5,557.05",
+		lwidth=1.19,
+		margin="0,0",
+		nodesep=0.4,
+		pad="0.4,0.4",
+		rankdir=TB,
+		ranksep=0.5,
+		splines=spline
+	];
+	node [fontname=ArialMT,
+		fontsize=10,
+		label="\N",
+		margin="0.07,0.05",
+		penwidth=1.0,
+		shape=Mrecord
+	];
+	edge [arrowsize=0.9,
+		dir=both,
+		fontname=ArialMT,
+		fontsize=7,
+		labelangle=32,
+		labeldistance=1.8,
+		penwidth=1.0
+	];
+	"m_RailsERD::CLI"	[height=0.96042,
+		label=<{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial BoldMT" point-size="11">RailsERD::CLI</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="attr_0">- start() <font face="Arial ItalicMT" color="grey60">start()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_1">- initialize(path, options) <font face="Arial ItalicMT" color="grey60">initialize(path, options)</font></td></tr>
+  <tr><td align="left" width="130" port="attr_2">- start() <font face="Arial ItalicMT" color="grey60">start()</font></td></tr>
+</table>
+}>,
+		pos="109.04,424.72",
+		width=3.0289];
+	"m_RailsERD::Domain:attr_0"	[height=0.51389,
+		label="m_RailsERD::Domain:attr_0",
+		pos="213.04,173.82",
+		width=1.8796];
+	"m_RailsERD::CLI" -> "m_RailsERD::Domain:attr_0"	[arrowhead=normal,
+		arrowtail=normal,
+		pos="s,123.07,390.16 e,205.84,192.07 127.07,380.57 148.61,329.03 183.96,244.42 201.88,201.54",
+		weight=1.0];
+	"m_RailsERD::Config"	[height=1.1444,
+		label=<{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial BoldMT" point-size="11">RailsERD::Config</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="attr_0">+ load(extra_config_file = ...) <font face="Arial ItalicMT" color="grey60">load(extra_config_file = ...)</font></td></tr>
+  <tr><td align="left" width="130" port="attr_1">- initialize() <font face="Arial ItalicMT" color="grey60">initialize()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_2">- load(extra_config_file = ...) <font face="Arial ItalicMT" color="grey60">load(extra_config_file = ...)</font></td></tr>
+  <tr><td align="left" width="130" port="attr_3">+ font_names_based_on_os() <font face="Arial ItalicMT" color="grey60">font_names_based_on_os()</font></td></tr>
+</table>
+}>,
+		pos="547.04,424.72",
+		width=3.6956];
+	"m_RailsERD::Diagram"	[height=1.5125,
+		label=<{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial BoldMT" point-size="11">RailsERD::Diagram</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="attr_0">- create(options = ...) <font face="Arial ItalicMT" color="grey60">create(options = ...)</font></td></tr>
+  <tr><td align="left" width="130" port="attr_1">- initialize(domain, options = ...) <font face="Arial ItalicMT" color="grey60">initialize(domain, options = ...)</font></td></tr>
+  <tr><td align="left" width="130" port="attr_2">- create() <font face="Arial ItalicMT" color="grey60">create()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_3">- generate() <font face="Arial ItalicMT" color="grey60">generate()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_4">- recurse_into_relationships(entity, max_level, current_level = ...) <font face="Arial ItalicMT" color="grey60">recurse_into_relationships(entity, max_level, current_level = ...)</font></td></tr>
+  <tr><td align="left" width="130" port="attr_5">- save() <font face="Arial ItalicMT" color="grey60">save()</font></td></tr>
+</table>
+}>,
+		pos="995.04,424.72",
+		width=7.9456];
+	"m_RailsERD::Domain"	[height=2.4326,
+		label=<{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial BoldMT" point-size="11">RailsERD::Domain</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="attr_0">- generate(options = ...) <font face="Arial ItalicMT" color="grey60">generate(options = ...)</font></td></tr>
+  <tr><td align="left" width="130" port="attr_1">- discover_ruby_files(paths) <font face="Arial ItalicMT" color="grey60">discover_ruby_files(paths)</font></td></tr>
+  <tr><td align="left" width="130" port="attr_2">- initialize(parsed_classes = ..., options = ...) <font face="Arial ItalicMT" color="grey60">initialize(parsed_classes = ..., options = ...)</font></td></tr>
+  <tr><td align="left" width="130" port="attr_3">- name() <font face="Arial ItalicMT" color="grey60">name()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_4">- entities() <font face="Arial ItalicMT" color="grey60">entities()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_5">- relationships() <font face="Arial ItalicMT" color="grey60">relationships()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_6">- specializations() <font face="Arial ItalicMT" color="grey60">specializations()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_7">- entity_by_name(name) <font face="Arial ItalicMT" color="grey60">entity_by_name(name)</font></td></tr>
+  <tr><td align="left" width="130" port="attr_8">- relationships_by_entity_name(name) <font face="Arial ItalicMT" color="grey60">relationships_by_entity_name(name)</font></td></tr>
+  <tr><td align="left" width="130" port="attr_9">- specializations_by_entity_name(name) <font face="Arial ItalicMT" color="grey60">specializations_by_entity_name(name)</font></td></tr>
+  <tr><td align="left" width="130" port="attr_10">- warn(message) <font face="Arial ItalicMT" color="grey60">warn(message)</font></td></tr>
+</table>
+}>,
+		pos="1511,424.72",
+		width=5.5706];
+	"m_RailsERD::Entity:attr_0"	[height=0.51389,
+		label="m_RailsERD::Entity:attr_0",
+		pos="1336,173.82",
+		width=1.765];
+	"m_RailsERD::Domain" -> "m_RailsERD::Entity:attr_0"	[arrowhead=normal,
+		arrowtail=normal,
+		pos="s,1450.3,337.37 e,1348.1,191.96 1444.4,328.94 1411.8,282.61 1375.1,230.45 1353.9,200.24",
+		weight=1.0];
+	"m_RailsERD::StaticAnalyzer:attr_0"	[height=0.51389,
+		label="m_RailsERD::StaticAnalyzer:attr_0",
+		pos="1511,173.82",
+		width=2.2963];
+	"m_RailsERD::Domain" -> "m_RailsERD::StaticAnalyzer:attr_0"	[arrowhead=normal,
+		arrowtail=normal,
+		pos="s,1511,337.37 e,1511,191.96 1511,327.05 1511,282.32 1511,232.55 1511,202.47",
+		weight=1.0];
+	"m_RailsERD::Relationship:attr_0"	[height=0.51389,
+		label="m_RailsERD::Relationship:attr_0",
+		pos="1700,173.82",
+		width=2.1608];
+	"m_RailsERD::Domain" -> "m_RailsERD::Relationship:attr_0"	[arrowhead=normal,
+		arrowtail=normal,
+		pos="s,1576.6,337.37 e,1687,191.96 1582.8,329.26 1618,282.85 1657.7,230.54 1680.7,200.26",
+		weight=1.0];
+	"m_RailsERD::Attribute"	[height=2.8007,
+		label=<{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial BoldMT" point-size="11">RailsERD::Attribute</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="attr_0">- initialize(entity, method_data) <font face="Arial ItalicMT" color="grey60">initialize(entity, method_data)</font></td></tr>
+  <tr><td align="left" width="130" port="attr_1">- name() <font face="Arial ItalicMT" color="grey60">name()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_2">- class_method?() <font face="Arial ItalicMT" color="grey60">class_method?()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_3">- content?() <font face="Arial ItalicMT" color="grey60">content?()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_4">- primary_key?() <font face="Arial ItalicMT" color="grey60">primary_key?()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_5">- foreign_key?() <font face="Arial ItalicMT" color="grey60">foreign_key?()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_6">- timestamp?() <font face="Arial ItalicMT" color="grey60">timestamp?()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_7">- inheritance?() <font face="Arial ItalicMT" color="grey60">inheritance?()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_8">- false?() <font face="Arial ItalicMT" color="grey60">false?()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_9">- ==(other) <font face="Arial ItalicMT" color="grey60">==(other)</font></td></tr>
+  <tr><td align="left" width="130" port="attr_10">- &lt;=&gt;(other) <font face="Arial ItalicMT" color="grey60">&lt;=&gt;(other)</font></td></tr>
+  <tr><td align="left" width="130" port="attr_11">- to_s() <font face="Arial ItalicMT" color="grey60">to_s()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_12">- type_description() <font face="Arial ItalicMT" color="grey60">type_description()</font></td></tr>
+</table>
+}>,
+		pos="1944,173.82",
+		width=3.8206];
+	"m_RailsERD::Entity"	[height=2.9847,
+		label=<{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial BoldMT" point-size="11">RailsERD::Entity</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="attr_0">- from_parsed_class(parsed, domain) <font face="Arial ItalicMT" color="grey60">from_parsed_class(parsed, domain)</font></td></tr>
+  <tr><td align="left" width="130" port="attr_1">- initialize(domain, parsed) <font face="Arial ItalicMT" color="grey60">initialize(domain, parsed)</font></td></tr>
+  <tr><td align="left" width="130" port="attr_2">- attributes() <font face="Arial ItalicMT" color="grey60">attributes()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_3">- relationships() <font face="Arial ItalicMT" color="grey60">relationships()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_4">- connected?() <font face="Arial ItalicMT" color="grey60">connected?()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_5">- disconnected?() <font face="Arial ItalicMT" color="grey60">disconnected?()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_6">- generalized?() <font face="Arial ItalicMT" color="grey60">generalized?()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_7">- specialized?() <font face="Arial ItalicMT" color="grey60">specialized?()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_8">- virtual?() <font face="Arial ItalicMT" color="grey60">virtual?()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_9">- children() <font face="Arial ItalicMT" color="grey60">children()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_10">- namespace() <font face="Arial ItalicMT" color="grey60">namespace()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_11">- ==(other) <font face="Arial ItalicMT" color="grey60">==(other)</font></td></tr>
+  <tr><td align="left" width="130" port="attr_12">- to_s() <font face="Arial ItalicMT" color="grey60">to_s()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_13">- &lt;=&gt;(other) <font face="Arial ItalicMT" color="grey60">&lt;=&gt;(other)</font></td></tr>
+</table>
+}>,
+		pos="2203,424.72",
+		width=4.6331];
+	"m_RailsERD::Relationship"	[height=3.1687,
+		label=<{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial BoldMT" point-size="11">RailsERD::Relationship</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="attr_0">- from_method_call(domain, source, destination, method_calls = ...) <font face="Arial ItalicMT" color="grey60">from_method_call(domain, source, destination, method_calls = ...)</font></td></tr>
+  <tr><td align="left" width="130" port="attr_1">- initialize(domain, source, destination, method_calls = ...) <font face="Arial ItalicMT" color="grey60">initialize(domain, source, destination, method_calls = ...)</font></td></tr>
+  <tr><td align="left" width="130" port="attr_2">- add_method_call(source_method, target_method) <font face="Arial ItalicMT" color="grey60">add_method_call(source_method, target_method)</font></td></tr>
+  <tr><td align="left" width="130" port="attr_3">- indirect?() <font face="Arial ItalicMT" color="grey60">indirect?()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_4">- cardinality() <font face="Arial ItalicMT" color="grey60">cardinality()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_5">- one_to_one?() <font face="Arial ItalicMT" color="grey60">one_to_one?()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_6">- one_to_many?() <font face="Arial ItalicMT" color="grey60">one_to_many?()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_7">- many_to_many?() <font face="Arial ItalicMT" color="grey60">many_to_many?()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_8">- to_many?() <font face="Arial ItalicMT" color="grey60">to_many?()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_9">- many_to?() <font face="Arial ItalicMT" color="grey60">many_to?()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_10">- source_optional?() <font face="Arial ItalicMT" color="grey60">source_optional?()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_11">- destination_optional?() <font face="Arial ItalicMT" color="grey60">destination_optional?()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_12">- strength() <font face="Arial ItalicMT" color="grey60">strength()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_13">- ==(other) <font face="Arial ItalicMT" color="grey60">==(other)</font></td></tr>
+  <tr><td align="left" width="130" port="attr_14">- to_s() <font face="Arial ItalicMT" color="grey60">to_s()</font></td></tr>
+</table>
+}>,
+		pos="2698,424.72",
+		width=8.3206];
+	"m_RailsERD::Cardinality"	[height=1.8806,
+		label=<{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial BoldMT" point-size="11">RailsERD::Cardinality</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="attr_0">- initialize(source_range, destination_range) <font face="Arial ItalicMT" color="grey60">initialize(source_range, destination_range)</font></td></tr>
+  <tr><td align="left" width="130" port="attr_1">- name() <font face="Arial ItalicMT" color="grey60">name()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_2">- source_optional?() <font face="Arial ItalicMT" color="grey60">source_optional?()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_3">- destination_optional?() <font face="Arial ItalicMT" color="grey60">destination_optional?()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_4">- inverse() <font face="Arial ItalicMT" color="grey60">inverse()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_5">- ==(other) <font face="Arial ItalicMT" color="grey60">==(other)</font></td></tr>
+  <tr><td align="left" width="130" port="attr_6">- &lt;=&gt;(other) <font face="Arial ItalicMT" color="grey60">&lt;=&gt;(other)</font></td></tr>
+  <tr><td align="left" width="130" port="attr_7">- cardinality_class() <font face="Arial ItalicMT" color="grey60">cardinality_class()</font></td></tr>
+</table>
+}>,
+		pos="3104,173.82",
+		width=5.3831];
+	"m_RailsERD::RubyParser"	[height=0.77639,
+		label=<{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial BoldMT" point-size="11">RailsERD::RubyParser</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="attr_0">- parse_source(source, filename = ...) <font face="Arial ItalicMT" color="grey60">parse_source(source, filename = ...)</font></td></tr>
+  <tr><td align="left" width="130" port="attr_1">- parse_file(file_path) <font face="Arial ItalicMT" color="grey60">parse_file(file_path)</font></td></tr>
+</table>
+}>,
+		pos="3380,424.72",
+		width=4.6956];
+	"m_RailsERD::NullGeneralized"	[height=2.0646,
+		label=<{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial BoldMT" point-size="11">RailsERD::NullGeneralized</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="attr_0">- from_models(domain, models) <font face="Arial ItalicMT" color="grey60">from_models(domain, models)</font></td></tr>
+  <tr><td align="left" width="130" port="attr_1">- initialize(domain, generalized, specialized) <font face="Arial ItalicMT" color="grey60">initialize(domain, generalized, specialized)</font></td></tr>
+  <tr><td align="left" width="130" port="attr_2">- generalization?() <font face="Arial ItalicMT" color="grey60">generalization?()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_3">- specialization?() <font face="Arial ItalicMT" color="grey60">specialization?()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_4">- &lt;=&gt;(other) <font face="Arial ItalicMT" color="grey60">&lt;=&gt;(other)</font></td></tr>
+  <tr><td align="left" width="130" port="attr_5">- name() <font face="Arial ItalicMT" color="grey60">name()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_6">- generalized?() <font face="Arial ItalicMT" color="grey60">generalized?()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_7">- name() <font face="Arial ItalicMT" color="grey60">name()</font></td></tr>
+  <tr><td align="left" width="130" port="attr_8">- generalized?() <font face="Arial ItalicMT" color="grey60">generalized?()</font></td></tr>
+</table>
+}>,
+		pos="3663,173.82",
+		width=5.4039];
+	"m_RailsERD::StaticAnalyzer"	[height=0.59236,
+		label=<{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial BoldMT" point-size="11">RailsERD::StaticAnalyzer</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="attr_0">- find_method_calls(source) <font face="Arial ItalicMT" color="grey60">find_method_calls(source)</font></td></tr>
+</table>
+}>,
+		pos="3903,424.72",
+		width=3.4872];
+	"m_RailsERD::CLI:attr_0"	[height=0.51389,
+		label="m_RailsERD::CLI:attr_0",
+		pos="4116,424.72",
+		width=1.6296];
+	"m_RailsERD::Config:attr_0"	[height=0.51389,
+		label="m_RailsERD::Config:attr_0",
+		pos="4116,173.82",
+		width=1.8067];
+	"m_RailsERD::CLI:attr_0" -> "m_RailsERD::Config:attr_0"	[arrowhead=normal,
+		arrowtail=normal,
+		pos="s,4116,406.62 e,4116,192.05 4116,396.25 4116,348.36 4116,250.15 4116,202.28",
+		weight=1.0];
+	"m_RailsERD::RubyParser:attr_1"	[height=0.51389,
+		label="m_RailsERD::RubyParser:attr_1",
+		pos="213.04,18.5",
+		width=2.1296];
+	"m_RailsERD::Domain:attr_0" -> "m_RailsERD::RubyParser:attr_1"	[arrowhead=normal,
+		arrowtail=normal,
+		pos="s,213.04,155.53 e,213.04,36.962 213.04,145.28 213.04,117.54 213.04,74.971 213.04,47.179",
+		weight=1.0];
+	"m_RailsERD::Diagram:attr_0"	[height=0.51389,
+		label="m_RailsERD::Diagram:attr_0",
+		pos="316.04,424.72",
+		width=1.9213];
+	"m_RailsERD::Diagram:attr_0" -> "m_RailsERD::Domain:attr_0"	[arrowhead=normal,
+		arrowtail=normal,
+		pos="s,308.96,406.62 e,220.17,192.05 305.07,397.22 285.33,349.52 244.04,249.73 224.18,201.74",
+		weight=1.0];
+	"m_RailsERD::Entity:attr_2"	[height=0.51389,
+		label="m_RailsERD::Entity:attr_2",
+		pos="1944,424.72",
+		width=1.765];
+	"m_RailsERD::Entity:attr_2" -> "m_RailsERD::Attribute"	[arrowhead=normal,
+		arrowtail=normal,
+		pos="s,1944,406.62 e,1944,274.43 1944,396.33 1944,369.23 1944,325.96 1944,284.83",
+		weight=1.0];
+	"m_RailsERD::Relationship:attr_4"	[height=0.51389,
+		label="m_RailsERD::Relationship:attr_4",
+		pos="3104,424.72",
+		width=2.1608];
+	"m_RailsERD::Relationship:attr_4" -> "m_RailsERD::Cardinality"	[arrowhead=normal,
+		arrowtail=normal,
+		pos="s,3104,406.62 e,3104,241.43 3104,396.13 3104,361.53 3104,300.81 3104,251.71",
+		weight=1.0];
+	"m_RailsERD::NullGeneralized:attr_1"	[height=0.51389,
+		label="m_RailsERD::NullGeneralized:attr_1",
+		pos="3663,424.72",
+		width=2.3692];
+	"m_RailsERD::NullGeneralized:attr_1" -> "m_RailsERD::NullGeneralized"	[arrowhead=normal,
+		arrowtail=normal,
+		pos="s,3663,406.62 e,3663,248.11 3663,396.12 3663,363.1 3663,306.27 3663,258.47",
+		weight=1.0];
+}
