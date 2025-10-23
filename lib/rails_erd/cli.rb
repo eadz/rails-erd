@@ -164,11 +164,11 @@ module RailsERD
 
     def initialize(path, options)
       @path, @options = path, options
-      require "rails_erd/diagram/graphviz" if options.generator == :graphviz
+      require "rails_erd/diagram/graphviz" if options[:generator] == :graphviz
     end
 
     def start
-      load_application
+      # No need to load Rails application - we parse Ruby files directly
       create_diagram
     rescue Exception => e
       $stderr.puts "Failed: #{e.class}: #{e.message}"
@@ -202,7 +202,7 @@ module RailsERD
     end
 
     def generator
-      if options.generator == :mermaid
+      if options[:generator] == :mermaid
         RailsERD::Diagram::Mermaid
       else
         RailsERD::Diagram::Graphviz
@@ -210,8 +210,14 @@ module RailsERD
     end
 
     def create_diagram
-      $stderr.puts "Generating entity-relationship diagram for #{ActiveRecord::Base.descendants.length} models..."
-      file = generator.create(options)
+      # Generate domain from Ruby files
+      domain = RailsERD::Domain.generate(options.merge(root: path))
+      $stderr.puts "Generating class diagram for #{domain.entities.length} classes..."
+
+      # Create diagram
+      diagram = generator.new(domain, options)
+      file = diagram.create
+
       $stderr.puts "Diagram saved to '#{file}'."
       `open #{file}` if options[:open]
     end
