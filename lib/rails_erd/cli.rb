@@ -1,6 +1,8 @@
 require "rails_erd"
 require "rails_erd/domain"
 require "rails_erd/diagram"
+require "rails_erd/diagram/graphviz"
+require "rails_erd/diagram/mermaid"
 require "choice"
 
 Choice.options do
@@ -166,7 +168,6 @@ module RailsERD
 
     def initialize(path, options)
       @path, @options = path, options
-      require "rails_erd/diagram/graphviz" if options[:generator] == :graphviz
     end
 
     def start
