@@ -125,14 +125,14 @@ module RailsERD
               params << arg.children.first.to_s
             when :optarg
               name = arg.children.first
-              params << "#{name} = {}"
+              params << "#{name} = ..."
             when :restarg
               params << "*#{arg.children.first}"
             when :kwarg
               params << "#{arg.children.first}:"
             when :kwoptarg
               name = arg.children.first
-              params << "#{name}: {}"
+              params << "#{name}: ..."
             when :blockarg
               params << "&#{arg.children.first}"
             end

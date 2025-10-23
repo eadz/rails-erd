@@ -5,8 +5,8 @@
 <% if attributes.any? %>
 |
 <table border="0" align="left" cellspacing="2" cellpadding="0" width="<%= NODE_WIDTH + 4 %>">
-<%   attributes.each do |attribute| %>
-  <tr><td align="left" width="<%= NODE_WIDTH %>" port="<%= CGI.escapeHTML(attribute.to_s) %>"><%= CGI.escapeHTML(attribute.to_s) %> <font face="<%= FONTS[:italic] %>" color="grey60"><%= CGI.escapeHTML(attribute.type_description.to_s) %></font></td></tr>
+<%   attributes.each_with_index do |attribute, idx| %>
+  <tr><td align="left" width="<%= NODE_WIDTH %>" port="attr_<%= idx %>"><%= CGI.escapeHTML(attribute.to_s) %> <font face="<%= FONTS[:italic] %>" color="grey60"><%= CGI.escapeHTML(attribute.type_description.to_s) %></font></td></tr>
 <%   end %>
 </table>
 <% else %>
