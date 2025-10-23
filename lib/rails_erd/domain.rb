@@ -19,20 +19,49 @@ module RailsERD
   #        to +true+.
   class Domain
     class << self
-      # Generates a domain model object based on all loaded subclasses of
-      # <tt>ActiveRecord::Base</tt>. Make sure your models are loaded before calling
-      # this method.
+      # Generates a domain model object based on Ruby files in app/ and lib/ directories.
       #
       # The +options+ hash allows you to override the default options. For a
       # list of available options, see RailsERD.
       def generate(options = {})
-        new ActiveRecord::Base.descendants, options
+        # Determine which directories to scan
+        root_path = options[:root] || Dir.pwd
+        scan_paths = if options[:paths]
+          options[:paths].map { |p| File.join(root_path, p) }
+        else
+          [
+            File.join(root_path, 'app'),
+            File.join(root_path, 'lib')
+          ].select { |p| Dir.exist?(p) }
+        end
+
+        # Discover all Ruby files
+        ruby_files = discover_ruby_files(scan_paths)
+
+        # Parse each file
+        parsed_classes = []
+        ruby_files.each do |file_path|
+          result = RubyParser.parse_file(file_path)
+          if result && result[:class_name]
+            result[:file_path] = file_path
+            parsed_classes << result
+          end
+        end
+
+        new(parsed_classes, options)
       end
 
-      # Returns the method name to retrieve the foreign key from an
-      # association reflection object.
-      def foreign_key_method_name # @private :nodoc:
-        @foreign_key_method_name ||= ActiveRecord::Reflection::AssociationReflection.method_defined?(:foreign_key) ? :foreign_key : :primary_key_name
+      # Discover all Ruby files in specified directories
+      def discover_ruby_files(paths)
+        paths.flat_map do |path|
+          if File.directory?(path)
+            Dir.glob(File.join(path, '**', '*.rb'))
+          elsif File.exist?(path)
+            [path]
+          else
+            []
+          end
+        end.uniq.sort
       end
     end
 
@@ -42,10 +71,15 @@ module RailsERD
     # The options that are used to generate this domain model.
     attr_reader :options
 
-    # Create a new domain model object based on the given array of models.
-    # The given models are assumed to be subclasses of <tt>ActiveRecord::Base</tt>.
-    def initialize(models = [], options = {})
-      @source_models, @options = models, RailsERD.options.merge(options)
+    # Create a new domain model object based on the given array of parsed classes.
+    def initialize(parsed_classes = [], options = {})
+      @parsed_classes = parsed_classes
+      @options = RailsERD.options.merge(options)
+      @entities = []
+      @relationships = []
+      @specializations = []
+
+      process_parsed_classes
     end
 
     # Returns the domain model name, which is the name of your Rails
@@ -62,17 +96,17 @@ module RailsERD
 
     # Returns all entities of your domain model.
     def entities
-      @entities ||= Entity.from_models(self, models)
+      @entities
     end
 
     # Returns all relationships in your domain model.
     def relationships
-      @relationships ||= Relationship.from_associations(self, associations)
+      @relationships
     end
 
     # Returns all specializations in your domain model.
     def specializations
-      @specializations ||= Specialization.from_models(self, models)
+      @specializations
     end
 
     # Returns a specific entity object for the given Active Record model.
@@ -94,6 +128,50 @@ module RailsERD
     end
 
     private
+
+    def process_parsed_classes
+      # Create entities from parsed classes
+      @parsed_classes.each do |parsed|
+        entity = Entity.from_parsed_class(parsed, self)
+        @entities << entity if entity
+      end
+
+      # Create specializations (inheritance)
+      @parsed_classes.each do |parsed|
+        next unless parsed[:superclass]
+
+        source = @entities.find { |e| e.name == parsed[:class_name] }
+        target = @entities.find { |e| e.name == parsed[:superclass] }
+
+        if source && target
+          @specializations << Specialization.new(self, source, target)
+        end
+      end
+
+      # Create relationships (method calls)
+      @parsed_classes.each do |parsed|
+        source_entity = @entities.find { |e| e.name == parsed[:class_name] }
+        next unless source_entity
+
+        # Read the file and analyze method calls
+        source_code = File.read(parsed[:file_path])
+        calls = StaticAnalyzer.find_method_calls(source_code)
+
+        calls.each do |call|
+          target_entity = @entities.find { |e| e.name == call[:target_class] }
+          next unless target_entity
+
+          # Check if we already have this relationship
+          existing = @relationships.find do |r|
+            r.source == source_entity && r.destination == target_entity
+          end
+
+          unless existing
+            @relationships << Relationship.from_method_call(self, source_entity, target_entity)
+          end
+        end
+      end
+    end
 
     def entity_mapping
       @entity_mapping ||= {}.tap do |mapping|
@@ -121,84 +199,5 @@ module RailsERD
       end
     end
 
-    def models
-      @models ||= @source_models
-                    .reject { |model| tableless_rails_models.include?(model) }
-                    .select { |model| check_model_validity(model) }
-                    .reject { |model| check_habtm_model(model) }
-    end
-
-    # Returns Rails model classes defined in the app
-    def rails_models
-      %w(
-        ActionMailbox::InboundEmail
-        ActiveStorage::Attachment
-        ActiveStorage::Blob
-        ActiveStorage::VariantRecord
-        ActionText::RichText
-        ActionText::EncryptedRichText
-      ).map{ |model| Object.const_get(model) rescue nil }.compact
-    end
-
-    def tableless_rails_models
-      @tableless_rails_models ||= begin
-        if defined? Rails
-          rails_models.reject{ |model| model.table_exists? }
-        else
-          []
-        end
-      end
-    end
-
-    def associations
-      @associations ||= models.collect(&:reflect_on_all_associations).flatten.select { |assoc| check_association_validity(assoc) }
-    end
-
-    def check_model_validity(model)
-      if model.abstract_class? || model.table_exists?
-        if model.name.nil?
-          raise "is anonymous class"
-        else
-          true
-        end
-      else
-        raise "table #{model.table_name} does not exist"
-      end
-    rescue => e
-      warn "Ignoring invalid model #{model.name} (#{e.message})"
-    end
-
-    def check_association_validity(association)
-      # Raises an ActiveRecord::ActiveRecordError if the association is broken.
-      association.check_validity!
-
-      if association.options[:polymorphic]
-        check_polymorphic_association_validity(association)
-      else
-        entity_name = association.klass.name # Raises NameError if the associated class cannot be found.
-        entity_by_name(entity_name) or raise "model #{entity_name} exists, but is not included in domain"
-      end
-    rescue => e
-      warn "Ignoring invalid association #{association_description(association)} (#{e.message})"
-    end
-
-    def check_polymorphic_association_validity(association)
-      entity_name = association.class_name
-      entity = entity_by_name(entity_name)
-
-      if entity || (entity && entity.generalized?)
-        return entity
-      else
-        raise("polymorphic interface #{entity_name} does not exist")
-      end
-    end
-
-    def association_description(association)
-      "#{association.name.inspect} on #{association.active_record}"
-    end
-
-    def check_habtm_model(model)
-      model.name.start_with?("HABTM_")
-    end
   end
 end
