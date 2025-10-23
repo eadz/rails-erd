@@ -1,12 +1,12 @@
-<% if options.orientation == :horizontal %>{<% end %>
+<% require 'cgi' %><% if options.orientation == :horizontal %>{<% end %>
 <table border="0" align="center" cellspacing="0.5" cellpadding="0" width="<%= NODE_WIDTH + 4 %>">
-  <tr><td align="center" valign="bottom" width="<%= NODE_WIDTH %>"><font face="<%= FONTS[:bold] %>" point-size="11"><%= entity.name %></font></td></tr>
+  <tr><td align="center" valign="bottom" width="<%= NODE_WIDTH %>"><font face="<%= FONTS[:bold] %>" point-size="11"><%= CGI.escapeHTML(entity.name.to_s) %></font></td></tr>
 </table>
 <% if attributes.any? %>
 |
 <table border="0" align="left" cellspacing="2" cellpadding="0" width="<%= NODE_WIDTH + 4 %>">
 <%   attributes.each do |attribute| %>
-  <tr><td align="left" width="<%= NODE_WIDTH %>" port="<%= attribute %>"><%= attribute %> <font face="<%= FONTS[:italic] %>" color="grey60"><%= attribute.type_description %></font></td></tr>
+  <tr><td align="left" width="<%= NODE_WIDTH %>" port="<%= CGI.escapeHTML(attribute.to_s) %>"><%= CGI.escapeHTML(attribute.to_s) %> <font face="<%= FONTS[:italic] %>" color="grey60"><%= CGI.escapeHTML(attribute.type_description.to_s) %></font></td></tr>
 <%   end %>
 </table>
 <% else %>
