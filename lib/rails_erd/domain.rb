@@ -157,20 +157,23 @@ module RailsERD
         source_code = File.read(parsed[:file_path])
         calls = StaticAnalyzer.find_method_calls(source_code)
 
-        calls.each do |call|
+        # Group calls by target class
+        calls_by_target = calls.group_by { |call| call[:target_class] }
+
+        calls_by_target.each do |target_class_name, target_calls|
           # Try exact match first
-          target_entity = @entities.find { |e| e.name == call[:target_class] }
+          target_entity = @entities.find { |e| e.name == target_class_name }
 
           # If no exact match, try fuzzy matching (for unqualified constant references)
           unless target_entity
             # If the call is to "Foo", try to find "::Foo", "Module::Foo", etc.
-            target_entity = @entities.find { |e| e.name.end_with?("::#{call[:target_class]}") }
+            target_entity = @entities.find { |e| e.name.end_with?("::#{target_class_name}") }
 
             # Also try if the target is in the same namespace as source
             unless target_entity
               if source_entity.name.include?('::')
                 namespace = source_entity.name.split('::')[0..-2].join('::')
-                qualified_name = "#{namespace}::#{call[:target_class]}"
+                qualified_name = "#{namespace}::#{target_class_name}"
                 target_entity = @entities.find { |e| e.name == qualified_name }
               end
             end
@@ -183,8 +186,17 @@ module RailsERD
             r.source == source_entity && r.destination == target_entity
           end
 
-          unless existing
-            @relationships << Relationship.from_method_call(self, source_entity, target_entity)
+          if existing
+            # Add method calls to existing relationship
+            target_calls.each do |call|
+              existing.add_method_call(call[:source_method], call[:target_method])
+            end
+          else
+            # Create new relationship with method calls
+            method_calls = target_calls.map do |call|
+              {source_method: call[:source_method], target_method: call[:target_method]}
+            end
+            @relationships << Relationship.from_method_call(self, source_entity, target_entity, method_calls)
           end
         end
       end

@@ -15,7 +15,8 @@ module RailsERD
 
       assert_equal 1, calls.length
       assert_equal 'UserMailer', calls.first[:target_class]
-      assert_equal :send_notification, calls.first[:method_name]
+      assert_equal :send_notification, calls.first[:target_method]
+      assert_equal :process, calls.first[:source_method]
     end
 
     def test_detects_constant_new
@@ -31,7 +32,8 @@ module RailsERD
 
       assert_equal 1, calls.length
       assert_equal 'User', calls.first[:target_class]
-      assert_equal :new, calls.first[:method_name]
+      assert_equal :new, calls.first[:target_method]
+      assert_equal :create_user, calls.first[:source_method]
     end
 
     def test_ignores_non_constant_calls

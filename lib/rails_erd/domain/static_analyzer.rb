@@ -12,7 +12,7 @@ module RailsERD
           return [] if ast.nil?
 
           calls = []
-          extract_calls(ast, calls)
+          extract_calls(ast, calls, nil)
           calls
         rescue Parser::SyntaxError
           []
@@ -20,8 +20,23 @@ module RailsERD
 
         private
 
-        def extract_calls(node, calls)
+        def extract_calls(node, calls, current_method)
           return unless node.is_a?(Parser::AST::Node)
+
+          # Track when we enter a method definition
+          if node.type == :def
+            method_name = node.children[0]
+            # Process the method body with the current method context
+            method_body = node.children[2]
+            extract_calls(method_body, calls, method_name) if method_body
+            return
+          elsif node.type == :defs
+            # Class method (self.method_name)
+            method_name = node.children[1]
+            method_body = node.children[3]
+            extract_calls(method_body, calls, method_name) if method_body
+            return
+          end
 
           if node.type == :send
             receiver, method_name, *_args = node.children
@@ -29,14 +44,15 @@ module RailsERD
             # Only track calls on constants (ClassName.method)
             if constant_node?(receiver)
               calls << {
+                source_method: current_method,
                 target_class: const_name(receiver),
-                method_name: method_name
+                target_method: method_name
               }
             end
           end
 
           # Recursively process children
-          node.children.each { |child| extract_calls(child, calls) }
+          node.children.each { |child| extract_calls(child, calls, current_method) }
         end
 
         def constant_node?(node)

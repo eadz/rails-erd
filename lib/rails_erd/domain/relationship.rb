@@ -6,8 +6,8 @@ module RailsERD
     # relationships represent method calls between classes.
     class Relationship
       class << self
-        def from_method_call(domain, source, destination)
-          new(domain, source, destination)
+        def from_method_call(domain, source, destination, method_calls = [])
+          new(domain, source, destination, method_calls)
         end
       end
 
@@ -23,10 +23,19 @@ module RailsERD
       # The destination entity (the class being called).
       attr_reader :destination
 
-      def initialize(domain, source, destination) # @private :nodoc:
+      # Array of specific method-to-method calls: [{source_method: :foo, target_method: :bar}, ...]
+      attr_reader :method_calls
+
+      def initialize(domain, source, destination, method_calls = []) # @private :nodoc:
         @domain = domain
         @source = source
         @destination = destination
+        @method_calls = method_calls
+      end
+
+      # Add a method-to-method call to this relationship
+      def add_method_call(source_method, target_method)
+        @method_calls << {source_method: source_method, target_method: target_method}
       end
 
       # For class diagrams, relationships are always direct.

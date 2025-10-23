@@ -238,12 +238,26 @@ module RailsERD
 
       each_relationship do |relationship|
         from, to = relationship.source, relationship.destination
-        unless draw_edge from.name, to.name, relationship_options(relationship)
-          from.children.each do |child|
-            draw_edge child.name, to.name, relationship_options(relationship)
+
+        # If we have method-level call information, draw edges for each method call
+        if relationship.method_calls && relationship.method_calls.any?
+          relationship.method_calls.each do |call|
+            # Find source method port
+            source_port = find_method_port(from, call[:source_method])
+            # Find target method port
+            target_port = find_method_port(to, call[:target_method])
+
+            draw_edge_with_ports(from.name, to.name, source_port, target_port, relationship_options(relationship))
           end
-          to.children.each do |child|
-            draw_edge from.name, child.name, relationship_options(relationship)
+        else
+          # Fallback to class-level edge if no method information
+          unless draw_edge from.name, to.name, relationship_options(relationship)
+            from.children.each do |child|
+              draw_edge child.name, to.name, relationship_options(relationship)
+            end
+            to.children.each do |child|
+              draw_edge from.name, child.name, relationship_options(relationship)
+            end
           end
         end
       end
@@ -264,6 +278,37 @@ module RailsERD
 
       def draw_edge(from, to, options)
         graph.add_edges graph.search_node(escape_name(from)), graph.search_node(escape_name(to)), options if node_exists?(from) and node_exists?(to)
+      end
+
+      def draw_edge_with_ports(from, to, source_port, target_port, options)
+        return unless node_exists?(from) && node_exists?(to)
+
+        from_node = graph.search_node(escape_name(from))
+        to_node = graph.search_node(escape_name(to))
+
+        # Build port specification
+        from_spec = source_port ? "#{from_node.id}:#{source_port}" : from_node
+        to_spec = target_port ? "#{to_node.id}:#{target_port}" : to_node
+
+        graph.add_edges from_spec, to_spec, options
+      end
+
+      def find_method_port(entity, method_name)
+        return nil unless method_name
+
+        # Get filtered attributes for this entity (same logic as diagram uses)
+        attributes = entity.attributes.reject { |attribute|
+          !options.attributes or entity.specialized? or
+          [*options.attributes].none? { |type| attribute.send(:"#{type.to_s.chomp('s')}?") }
+        }
+
+        # Find the index of the method
+        idx = attributes.find_index do |attr|
+          # Match by method name in the signature
+          attr.method_data && attr.method_data[:name] == method_name
+        end
+
+        idx ? "attr_#{idx}" : nil
       end
 
       def escape_name(name)
