@@ -12,3 +12,6 @@ site/_generated
 Gemfile.lock
 gemfiles/*.lock
 .idea/
+erd.dot
+erd.pdf
+erd.png
